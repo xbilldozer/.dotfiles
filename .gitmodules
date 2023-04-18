@@ -1,0 +1,3 @@
+[submodule "uniteus"]
+	path = uniteus
+	url = git@github.com:xbilldozer/uniteus.git
