@@ -14,4 +14,4 @@ brew install stow
 
 ## zsh
 
-* Install oh-my-zsh
+* [Install oh-my-zsh](https://ohmyz.sh/#install)
