@@ -6,7 +6,12 @@ These are just misc notes for now....
 
 ## Pre-requisites
 
-* Homebrew must be available
+* [Homebrew](https://docs.brew.sh/Installation)
+* Neovim
+```zsh
+brew install neovim
+```
+* [Install oh-my-zsh](https://ohmyz.sh/#install)
 
 ```zsh
 brew install stow
@@ -14,4 +19,3 @@ brew install stow
 
 ## zsh
 
-* [Install oh-my-zsh](https://ohmyz.sh/#install)
