@@ -10,7 +10,8 @@ export ZSH="$HOME/.oh-my-zsh"
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 
 #ZSH_THEME="robbyrussell"
-ZSH_THEME="geoffgarside"
+#ZSH_THEME="geoffgarside"
+ZSH_THEME="billy"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -67,7 +68,20 @@ ZSH_THEME="geoffgarside"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-source ~/.zsh_profile
+# pyenv and rvm setup has to live here for plugins to work.
+# I also can't load my profile before this or my ls alias gets overwritten.
+
+# Set up PATH for all the version management utilities installed
+export PATH="$(pyenv root)/shims:$PATH" # Add pyenv shim directory
+
+# Init functions for version management utilities
+ [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
+
+
 
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
@@ -104,4 +118,5 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+source ~/.zsh_profile
 

@@ -2,6 +2,8 @@ VIM="nvim"
 export LS_OPTIONS='--color=auto'
 export CLICOLOR='Yes'
 export LSCOLORS=ExFxCxDxBxegedabagacad
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
 export TZ="America/New_York"
 echo "Terminal TZ set to $TZ"
 export GOPATH=$HOME/src/go-projects
@@ -9,19 +11,7 @@ export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 export PATH="$PATH:$GOPATH/bin" # Add gopath bin directory
 export KUBE_EDITOR='/usr/local/bin/nvim'
 
-# Set up PATH for all the version management utilities installed
-export PATH="$(pyenv root)/shims:$PATH" # Add pyenv shim directory
-
-# Init functions for version management utilities
- [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
-
 alias ls='ls -a'
-alias gs='git status'
-
 alias flushdns="sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
 alias diffspec="git diff --name-only | grep -E spec.rb | xargs rspec"
 
