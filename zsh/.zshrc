@@ -75,11 +75,9 @@ ZSH_THEME="billy"
 export PATH="$(pyenv root)/shims:$PATH" # Add pyenv shim directory
 
 # Init functions for version management utilities
- [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
+eval "$(pyenv init -)"
 
 
 
@@ -119,4 +117,6 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 source ~/.zsh_profile
+# Allow autocomplete with dotfiles without specifying dot first.
+setopt globdots
 
