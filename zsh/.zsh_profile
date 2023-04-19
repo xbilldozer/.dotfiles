@@ -20,3 +20,22 @@ WORK=$HOME/.config/uniteus
 for i in `find -L $WORK -name '.zsh*'`; do
     source $i
 done
+
+function newtmux {
+  SESSIONNAME="workspace"
+  tmux has-session -t $SESSIONNAME &> /dev/null
+
+  if [ $? != 0 ]
+   then
+      tmux new-session -s $SESSIONNAME -n "nvim" -d
+      tmux new-window -n irc
+      tmux send-keys -t irc "ssh irc2" C-m
+      tmux send-keys -t nvim "cd ~/src && nvim ." C-m
+      tmux new-window -n ws1
+      tmux new-window -n ws2
+      tmux new-window -n ws3
+  fi
+
+  tmux attach -t $SESSIONNAME
+}
+
