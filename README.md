@@ -17,5 +17,13 @@ brew install neovim
 brew install stow
 ```
 
-## zsh
 
+## neovim
+
+Troubleshooting
+
+Make sure compiled packer is not present in nvim/plugin/ directory.
+`:so %` in lua/packer file and then `:PackerSync`
+`:lua ColorMyPencils()` to restore theme and background.
+If running into treesitting parsing issues, run `:TSUpdate` to make sure it is up-to-date.
+If still having issues, run `:TSInstall! <lang>` and restart neovim.
