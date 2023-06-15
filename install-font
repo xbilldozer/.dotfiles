@@ -1,0 +1,7 @@
+#!/usr/bin/env zsh
+
+set -x
+git clone https://github.com/Karmenzind/monaco-nerd-fonts tmp/monaco-nerd-fonts
+cp -r tmp/monaco-nerd-fonts/fonts/ ~/Library/Fonts/
+rm -rf tmp/monaco-nerd-fonts
+echo "done."
