@@ -18,15 +18,29 @@ brew install stow
 ```zsh
 ./install-font
 ```
-* tmux + tmux package manager
+* tmux + [tmux package manager](https://github.com/tmux-plugins/tpm)
 ```
 brew install tmux
 ./install-tmux-tpm
 ```
 
-## neovim
+## Installation
 
-Troubleshooting
+```zsh
+osx
+```
+
+## Notes
+
+### neovim
+
+- Uses packer to manage packages
+- Treesitter for parsing/syntax highlighting
+- Nvimtree replaces netrw, leader+tt to open
+- lsp-zero for language severs/autocomplete
+    - see `lsp.lua` for default lsps
+
+#### Troubleshooting
 
 Make sure compiled packer is not present in nvim/plugin/ directory.
 `:so %` in lua/packer file and then `:PackerSync`
@@ -34,8 +48,10 @@ Make sure compiled packer is not present in nvim/plugin/ directory.
 If running into treesitting parsing issues, run `:TSUpdate` to make sure it is up-to-date.
 If still having issues, run `:TSInstall! <lang>` and restart neovim.
 
-## Installation
+### tmux
 
-```zsh
-osx
-```
+- Prefix remapped to `<C-Space>`
+- Uses tpm to manage plugins
+Once tmux is opened, run `prefix + I` to install packages
+- tmux-resurrect and tmux-continuum for those times IT auto-installs osx updates
+
