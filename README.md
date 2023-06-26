@@ -18,7 +18,11 @@ brew install stow
 ```zsh
 ./install-font
 ```
-
+* tmux + tmux package manager
+```
+brew install tmux
+./install-tmux-tpm
+```
 
 ## neovim
 
