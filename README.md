@@ -6,6 +6,17 @@ These are just misc notes for now....
 ## Pre-requisites
 
 * [Homebrew](https://docs.brew.sh/Installation)
+* [iTerm2](https://iterm2.com/downloads.html)
+    * [Install monaco nerd-font](https://github.com/Karmenzind/monaco-nerd-fonts)
+    ```zsh
+    ./scripts/install-font
+    ```
+    Them follow directions provided by script
+    * Install custom kanagawa wave theme
+    ```zsh
+    ./scripts/install-iterm-theme
+    ```
+    Then follow directions provided by script
 * Neovim
 ```zsh
 brew install neovim
@@ -14,14 +25,10 @@ brew install neovim
 ```zsh
 brew install stow
 ```
-* [Install monaco nerd-font](https://github.com/Karmenzind/monaco-nerd-fonts)
-```zsh
-./install-font
-```
 * tmux + [tmux package manager](https://github.com/tmux-plugins/tpm)
 ```
 brew install tmux
-./install-tmux-tpm
+./scripts/install-tmux-tpm
 ```
 
 ## Installation
