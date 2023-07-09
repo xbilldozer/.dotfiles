@@ -53,6 +53,27 @@ Restart nvim and you should see no errors.
 - lsp-zero for language severs/autocomplete
     - see `lsp.lua` for default lsps
 
+### Multiple profiles for GitHub
+
+You can set up multiple ssh keys for github by
+1. Generating the keys you require
+2. Editing ~/.ssh/config to set up profiles for each key
+3. Upload the public keys to the github accounts you want to use them with
+
+The config entries look like:
+```
+Host github.com-username1
+  HostName github.com
+  User username1
+  AddKeysToAgent yes
+  IdentityFile ~/.ssh/sshkey1
+Host github.com-username2
+  HostName github.com
+  User username2
+  AddKeysToAgent yes
+  IdentityFile ~/.ssh/sshkey2
+```
+
 #### Troubleshooting
 
 If you forget to check out submodules recursively, you can run this in the top level:
