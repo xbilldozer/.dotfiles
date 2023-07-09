@@ -1,0 +1,7 @@
+#!/usr/bin/env zsh
+
+set -x
+DOTFILES=$HOME/.dotfiles
+file=$DOTFILES/iterm/kanagawa_wave.itermcolors
+defaults write com.googlecode.iterm2 "Custom Color Presets" -dict-add "kanagawa_wave" "$(cat "$file")"
+echo "Preset added to iterm. You must cmd + I > Colors and then select the preset there."
