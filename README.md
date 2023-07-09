@@ -30,6 +30,19 @@ brew install tmux
 osx
 ```
 
+Install packer:
+```
+git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+ ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+ ```
+and then open the packer file
+```
+nvim ~/.config/nvim/lua/theprimeagen/packer.lua
+```
+you will get a bunch of errors -- just q through them.
+Run `:so %` then `:PackerSync` to download/install all plugins.
+Restart nvim and you should see no errors.
+
 ## Notes
 
 ### neovim
@@ -42,6 +55,10 @@ osx
 
 #### Troubleshooting
 
+If you forget to check out submodules recursively, you can run this in the top level:
+```
+git submodule update --init
+```
 Make sure compiled packer is not present in nvim/plugin/ directory.
 `:so %` in lua/packer file and then `:PackerSync`
 `:lua ColorMyPencils()` to restore theme and background.
