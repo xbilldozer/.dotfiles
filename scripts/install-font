@@ -1,0 +1,12 @@
+#!/usr/bin/env zsh
+
+set -x
+git clone https://github.com/Karmenzind/monaco-nerd-fonts tmp/monaco-nerd-fonts
+cp -r tmp/monaco-nerd-fonts/fonts/ ~/Library/Fonts/
+rm -rf tmp/monaco-nerd-fonts
+
+echo "Current font is: $(plutil -extract 'New Bookmarks.0.Normal Font' raw ~/Library/Preferences/com.googlecode.iterm2.plist)"
+echo "Setting font to MonacoNFM 12"
+plutil -replace 'New Bookmarks.0.Normal Font' -string 'MonacoNFM 12' ~/Library/Preferences/com.googlecode.iterm2.plist
+echo "Reload iterm for font setting to take effect."
+echo "done."
