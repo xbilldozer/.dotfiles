@@ -25,9 +25,9 @@ brew install neovim
 ```zsh
 brew install stow
 ```
-* tmux + [tmux package manager](https://github.com/tmux-plugins/tpm)
+* tmux + [fzf](https://github.com/junegunn/fzf) + [tmux package manager](https://github.com/tmux-plugins/tpm)
 ```
-brew install tmux
+brew install tmux fzf
 ./scripts/install-tmux-tpm
 ```
 
