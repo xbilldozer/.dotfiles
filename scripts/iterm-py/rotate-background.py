@@ -8,11 +8,11 @@ import subprocess
 import os
 
 _last_switch = -1
-_last_wallpaper = ''
+_last_background = ''
 _path = f'/usr/local/bin/:{os.environ.get("PATH")}'
 _tasks = []
-_wallpapers = []
-_wp_path = os.path.join(os.environ.get('HOME'), 'src/wallpapers/**/*.')
+_backgrounds = []
+_bg_path = os.path.join(os.environ.get('HOME'), 'src/wallpapers/**/*.')
 MAPPINGS = ['apple', 'md770']
 MODIFIERS = {
     'md770': [iterm2.Modifier.CONTROL, iterm2.Modifier.OPTION],
@@ -61,16 +61,16 @@ KEYCODES = {
             'modifier': [iterm2.Modifier.CONTROL,
                          iterm2.Modifier.OPTION]}}
 }
-WALLPAPER_EXTENTIONS = ['bmp', 'jpeg', 'jpg', 'png']
-WALLPAPER_TIMEOUT_SEC = 30 * 60
+BACKGROUND_EXTENTIONS = ['bmp', 'jpeg', 'jpg', 'png']
+BACKGROUND_TIMEOUT_SEC = 30 * 60
 
 
-def load_wallpapers():
-    global _wallpapers
-    _wallpapers = []
-    for ext in WALLPAPER_EXTENTIONS:
-        _wallpapers.extend(glob.glob(f'{_wp_path}{ext}', recursive=True))
-    print(f'loaded {len(_wallpapers)} backgrounds')
+def load_backgrounds():
+    global _backgrounds
+    _backgrounds = []
+    for ext in BACKGROUND_EXTENTIONS:
+        _backgrounds.extend(glob.glob(f'{_bg_path}{ext}', recursive=True))
+    print(f'loaded {len(_backgrounds)} backgrounds')
 
 
 def cancel_tasks():
@@ -82,13 +82,13 @@ def cancel_tasks():
     _tasks.clear()
 
 
-def pick_wallpaper():
+def pick_background():
     while True:
-        # Do not allow us to select the same wallpaper
-        wallpaper = random.choice(_wallpapers)
-        if not wallpaper == _last_wallpaper:
+        # Do not allow us to select the same background
+        background = random.choice(_backgrounds)
+        if not background == _last_background:
             break
-    return wallpaper
+    return background
 
 
 def stroke_it(keystroke, task, mapping):
@@ -96,31 +96,31 @@ def stroke_it(keystroke, task, mapping):
             keystroke.modifiers == KEYCODES[task][mapping]['modifier'])
 
 
-async def change_background(app, wallpaper=None):
-    global _last_wallpaper
+async def change_background(app, background=None):
+    global _last_background
     session = app.current_terminal_window.current_tab.current_session
     profile = await session.async_get_profile()
-    if wallpaper is None:
-        wallpaper = pick_wallpaper()
-        _last_wallpaper = wallpaper
-    print(f'setting background to {wallpaper}')
-    await profile.async_set_background_image_location(wallpaper)
-    subprocess.call(['tmux', 'display-message', wallpaper],
+    if background is None:
+        background = pick_background()
+        _last_background = background
+    print(f'setting background to {background}')
+    await profile.async_set_background_image_location(background)
+    subprocess.call(['tmux', 'display-message', background],
                     env={'PATH': _path})
 
 
 async def poll_change_background(app, restore=False):
     global _last_switch
-    await change_background(app, _last_wallpaper if restore else None)
+    await change_background(app, _last_background if restore else None)
     while True:
         _last_switch = datetime.now()
-        await asyncio.sleep(WALLPAPER_TIMEOUT_SEC)
+        await asyncio.sleep(BACKGROUND_TIMEOUT_SEC)
         await change_background(app)
 
 
 async def main(connection):
     app = await iterm2.async_get_app(connection)
-    load_wallpapers()
+    load_backgrounds()
     global task
     task = asyncio.create_task(poll_change_background(app))
     _tasks.append(task)
@@ -142,7 +142,7 @@ async def main(connection):
                 cancel_tasks()
             elif stroke_it(keystroke, 'reload', m):
                 # Rediscover backgrounds
-                load_wallpapers()
+                load_backgrounds()
             elif stroke_it(keystroke, 'next', m):
                 # Skip to the next background
                 cancel_tasks()
@@ -152,14 +152,14 @@ async def main(connection):
                 # Display debug information
                 next_sec = 'n/a'
                 if not _last_switch == -1:
-                    next_sec = WALLPAPER_TIMEOUT_SEC - (
+                    next_sec = BACKGROUND_TIMEOUT_SEC - (
                             datetime.now() - _last_switch).seconds
                 information = [
                     f'stopped: {not _tasks}',
-                    f'loaded: {len(_wallpapers)}',
-                    f't/o: {WALLPAPER_TIMEOUT_SEC}',
+                    f'loaded: {len(_backgrounds)}',
+                    f't/o: {BACKGROUND_TIMEOUT_SEC}',
                     f'next in: {next_sec}',
-                    f'loc: {_last_wallpaper}'
+                    f'loc: {_last_background}'
                 ]
                 message = '; '.join(information).lower()
                 subprocess.call(['tmux', 'display-message', message],
