@@ -63,11 +63,13 @@ Restart nvim and you should see no errors.
 ### Multiple profiles for GitHub
 
 You can set up multiple ssh keys for github by
-1. Generating the keys you require
-2. Editing ~/.ssh/config to set up profiles for each key
+1. Generate the keys you require
+2. Edit ~/.ssh/config to set up profiles for each key
 3. Upload the public keys to the github accounts you want to use them with
+4. Enable ssh-agent and add the keys
+5. When you clone, ensure you are using the ssh aliases you set up
 
-The config entries look like:
+The config entries will look something like:
 ```
 Host github.com-username1
   HostName github.com
