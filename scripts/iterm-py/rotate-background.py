@@ -1,16 +1,18 @@
 #!/usr/bin/env python3.7
 import asyncio
+from datetime import datetime
 import glob
 import iterm2
 import random
 import subprocess
 import os
 
+_last_switch = -1
 _last_wallpaper = ''
 _path = f'/usr/local/bin/:{os.environ.get("PATH")}'
 _tasks = []
 _wallpapers = []
-_wp_path = '/Users/altonwi/src/personal/wallpapers/**/*.'
+_wp_path = os.path.join(os.environ.get('HOME'), 'src/wallpapers/**/*.')
 MAPPINGS = ['apple', 'md770']
 MODIFIERS = {
     'md770': [iterm2.Modifier.CONTROL, iterm2.Modifier.OPTION],
@@ -72,9 +74,11 @@ def load_wallpapers():
 
 
 def cancel_tasks():
+    global _last_switch
     for task in _tasks:
         task.cancel()
         print('task canceled')
+    _last_switch = -1
     _tasks.clear()
 
 
@@ -106,8 +110,10 @@ async def change_background(app, wallpaper=None):
 
 
 async def poll_change_background(app, restore=False):
+    global _last_switch
     await change_background(app, _last_wallpaper if restore else None)
     while True:
+        _last_switch = datetime.now()
         await asyncio.sleep(WALLPAPER_TIMEOUT_SEC)
         await change_background(app)
 
@@ -132,8 +138,10 @@ async def main(connection):
                     cancel_tasks()
                     await change_background(app, '')
             elif stroke_it(keystroke, 'stop', m):
+                # Stop cycling through backgrounds, leave current background
                 cancel_tasks()
             elif stroke_it(keystroke, 'reload', m):
+                # Rediscover backgrounds
                 load_wallpapers()
             elif stroke_it(keystroke, 'next', m):
                 # Skip to the next background
@@ -141,10 +149,19 @@ async def main(connection):
                 task = asyncio.create_task(poll_change_background(app))
                 _tasks.append(task)
             elif stroke_it(keystroke, 'info', m):
-                message = (f'stopped: {not _tasks};'
-                           f' loaded: {len(_wallpapers)};'
-                           f' t/o: {WALLPAPER_TIMEOUT_SEC}'
-                           f' loc: {_last_wallpaper}').lower()
+                # Display debug information
+                next_sec = 'n/a'
+                if not _last_switch == -1:
+                    next_sec = WALLPAPER_TIMEOUT_SEC - (
+                            datetime.now() - _last_switch).seconds
+                information = [
+                    f'stopped: {not _tasks}',
+                    f'loaded: {len(_wallpapers)}',
+                    f't/o: {WALLPAPER_TIMEOUT_SEC}',
+                    f'next in: {next_sec}',
+                    f'loc: {_last_wallpaper}'
+                ]
+                message = '; '.join(information).lower()
                 subprocess.call(['tmux', 'display-message', message],
                                 env={'PATH': _path})
 
@@ -155,4 +172,6 @@ async def main(connection):
             await keystroke_handler(keystroke, app)
 
 iterm2.run_forever(main)
+
+
 
