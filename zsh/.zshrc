@@ -72,14 +72,23 @@ ZSH_THEME="billy"
 # I also can't load my profile before this or my ls alias gets overwritten.
 
 # Set up PATH for all the version management utilities installed
-export PATH="$(pyenv root)/shims:$PATH" # Add pyenv shim directory
 
 # Init functions for version management utilities
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
-eval "$(pyenv init -)"
+if ! command -v pyenv  &> /dev/null; then
+  echo "pyenv not installed, skipped init"
+else
+  echo "what"
+  export PATH="$(pyenv root)/shims:$PATH" # Add pyenv shim directory
+  eval "$(pyenv init -)"
+fi
 
-
+if [ -d "/usr/local/opt/asdf/libexec" ]; then
+  . /usr/local/opt/asdf/libexec/asdf.sh
+else
+  echo "asdf is not installed, skipped init"
+fi
 
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
