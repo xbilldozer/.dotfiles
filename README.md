@@ -52,6 +52,16 @@ Restart nvim and you should see no errors.
 
 ## Notes
 
+### Git
+
+oh-my-zsh uses less pager and the default setting doesn't leave output in the cli -- I like the output because
+1. sometimes quit prematurely and then have to run the cmd multiple times
+2. sometimes I want to go back and look at the diff later and don't want to craft a special diff with hashes or HEAD~n
+
+```
+git config --global core.pager "less -RFX"
+```
+
 ### neovim
 
 - Uses packer to manage packages
