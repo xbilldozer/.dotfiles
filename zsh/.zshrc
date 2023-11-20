@@ -79,7 +79,7 @@ ZSH_THEME="billy"
 if ! command -v pyenv  &> /dev/null; then
   echo "pyenv not installed, skipped init"
 else
-  echo "what"
+  echo "pyenv init"
   export PATH="$(pyenv root)/shims:$PATH" # Add pyenv shim directory
   eval "$(pyenv init -)"
 fi
