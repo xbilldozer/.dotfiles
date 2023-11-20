@@ -1,10 +1,9 @@
 #!/usr/bin/env zsh
-# steal https://github.com/ThePrimeagen/.dotfiles/blob/master/bin/.local/bin/tmux-sessionizer
 
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-	selected=$(find $PROJECTS/* $PROJECTS/go-projects/* -type d -maxdepth 0 | fzf )
+	selected=$(find $PROJECTS/* $GOPATH/src/github.com/unite-us/* -type d -maxdepth 0 | fzf )
 fi
 
 if [[ -z $selected ]]; then
