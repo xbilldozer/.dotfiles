@@ -17,6 +17,14 @@ These are just misc notes for now....
     ./scripts/install-iterm-theme
     ```
     Then follow directions provided by script
+* [asdf version manager](https://asdf-vm.com/guide/getting-started.html)
+    * Install plugins
+        * [Install ruby](https://github.com/asdf-vm/asdf-ruby) please read migration guide!!
+        * [Install python](https://github.com/asdf-community/asdf-python)
+        * [Install java](https://github.com/halcyon/asdf-java)
+        * [Install nodejs](https://github.com/asdf-vm/asdf-nodejs)
+        * [Complete list of plugins](https://github.com/asdf-vm/asdf-plugins?tab=readme-ov-file)
+    * [Install versions](https://asdf-vm.com/manage/versions.html)
 * Neovim
 ```zsh
 brew install neovim
@@ -111,4 +119,3 @@ If still having issues, run `:TSInstall! <lang>` and restart neovim.
 - Uses tpm to manage plugins
 Once tmux is opened, run `prefix + I` to install packages
 - tmux-resurrect and tmux-continuum for those times IT auto-installs osx updates
-

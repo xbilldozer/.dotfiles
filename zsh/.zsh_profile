@@ -8,7 +8,6 @@ export TZ="America/New_York"
 echo "Terminal TZ set to $TZ"
 export PROJECTS=$HOME/src
 export GOPATH=$PROJECTS/go-projects
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$PATH:$GOPATH/bin" # Add gopath bin directory
 export KUBE_EDITOR='/usr/local/bin/nvim'

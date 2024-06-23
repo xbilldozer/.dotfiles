@@ -73,29 +73,12 @@ ZSH_THEME="billy"
 
 # Set up PATH for all the version management utilities installed
 
-# Init functions for version management utilities
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-
-if ! command -v pyenv  &> /dev/null; then
-  echo "pyenv not installed, skipped init"
-else
-  echo "pyenv init"
-  export PATH="$(pyenv root)/shims:$PATH" # Add pyenv shim directory
-  eval "$(pyenv init -)"
-fi
-
-if [ -d "/usr/local/opt/asdf/libexec" ]; then
-  . /usr/local/opt/asdf/libexec/asdf.sh
-else
-  echo "asdf is not installed, skipped init"
-fi
-
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git pyenv rvm)
+plugins=(git asdf)
 
 source $ZSH/oh-my-zsh.sh
 
