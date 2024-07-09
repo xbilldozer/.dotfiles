@@ -20,11 +20,17 @@ These are just misc notes for now....
 * [asdf version manager](https://asdf-vm.com/guide/getting-started.html)
     * Install plugins
         * [Install ruby](https://github.com/asdf-vm/asdf-ruby) please read migration guide!!
+            * Install dependencies:
+            ```zsh
+            brew install libyaml
+            ```
         * [Install python](https://github.com/asdf-community/asdf-python)
         * [Install java](https://github.com/halcyon/asdf-java)
         * [Install nodejs](https://github.com/asdf-vm/asdf-nodejs)
+        * [Install golang](https://github.com/asdf-community/asdf-golang)
         * [Complete list of plugins](https://github.com/asdf-vm/asdf-plugins?tab=readme-ov-file)
     * [Install versions](https://asdf-vm.com/manage/versions.html)
+    * Make sure all versions are set so that nvim lsp-zero will install lsps as desired!
 * Neovim
 ```zsh
 brew install neovim
@@ -49,7 +55,7 @@ Install packer:
 ```
 git clone --depth 1 https://github.com/wbthomason/packer.nvim\
  ~/.local/share/nvim/site/pack/packer/start/packer.nvim
- ```
+```
 and then open the packer file
 ```
 nvim ~/.config/nvim/lua/theprimeagen/packer.lua
