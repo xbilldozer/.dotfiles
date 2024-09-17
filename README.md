@@ -40,9 +40,13 @@ brew install neovim
 brew install stow
 ```
 * tmux + [fzf](https://github.com/junegunn/fzf) + [tmux package manager](https://github.com/tmux-plugins/tpm)
-```
+```zsh
 brew install tmux fzf
 ./scripts/install-tmux-tpm
+```
+* AWS CLI
+```zsh
+brew install awscli
 ```
 
 ## Installation
@@ -52,17 +56,24 @@ osx
 ```
 
 Install packer:
-```
+```zsh
 git clone --depth 1 https://github.com/wbthomason/packer.nvim\
  ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 ```
 and then open the packer file
-```
+```zsh
 nvim ~/.config/nvim/lua/theprimeagen/packer.lua
 ```
 you will get a bunch of errors -- just q through them.
 Run `:so %` then `:PackerSync` to download/install all plugins.
 Restart nvim and you should see no errors.
+
+### Github Copilot
+In neovim, run:
+```
+:Copilot setup
+```
+Then follow the instructions to authenticate.
 
 ## Notes
 
@@ -72,7 +83,7 @@ oh-my-zsh uses less pager and the default setting doesn't leave output in the cl
 1. sometimes quit prematurely and then have to run the cmd multiple times
 2. sometimes I want to go back and look at the diff later and don't want to craft a special diff with hashes or HEAD~n
 
-```
+```zsh
 git config --global core.pager "less -RFX"
 ```
 
@@ -107,10 +118,10 @@ Host github.com-username2
   IdentityFile ~/.ssh/sshkey2
 ```
 
-#### Troubleshooting
+### Troubleshooting
 
 If you forget to check out submodules recursively, you can run this in the top level:
-```
+```zsh
 git submodule update --init
 ```
 Make sure compiled packer is not present in nvim/plugin/ directory.
