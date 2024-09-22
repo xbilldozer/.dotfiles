@@ -2,3 +2,4 @@ nvim/.config/nvim/plugin/packer_compiled.lua
 bash
 bin/.local/share
 bin/.local/state
+.DS_Store
