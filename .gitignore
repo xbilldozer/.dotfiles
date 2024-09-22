@@ -3,3 +3,4 @@ bash
 bin/.local/share
 bin/.local/state
 .DS_Store
+tmux/.tmux/plugins
