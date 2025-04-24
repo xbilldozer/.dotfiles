@@ -119,6 +119,25 @@ oh-my-zsh uses less pager and the default setting doesn't leave output in the cl
 git config --global core.pager "less -RFX"
 ```
 
+Other great options to make git work for you:
+
+```zsh
+# Sort branches by most recently used
+git config --global branch.sort -committerdate
+
+# Sort tags with major.minor.patch more intelligently
+git config --global tag.sort version:refname
+
+# iykyk
+git config --global init.defaultBranch main
+
+# Makes diff easier to read
+git config --global diff.algorithm histogram
+
+# Automatically create the upstream branch on first push
+git config --global push.autoSetupRemote true
+```
+
 ### neovim information
 
 - Uses packer to manage packages
