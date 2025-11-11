@@ -117,7 +117,7 @@ oh-my-zsh uses less pager and the default setting doesn't leave output in the cl
 git config --global core.pager "less -RFX"
 ```
 
-Other great options to make git work for you:
+Other great options to make git work for you (already pre-configured in the .gitconfig):
 
 ```zsh
 # Sort branches by most recently used

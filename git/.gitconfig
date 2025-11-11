@@ -1,0 +1,12 @@
+[user]
+	name = Bill Alton
+[core]
+	pager = less -RFX
+[branch]
+	sort = -committerdate
+[tag]
+	sort = version:refname
+[init]
+	defaultBranch = main
+[diff]
+	algorithm = histogram
