@@ -29,21 +29,19 @@ xcode-select --install
     Then follow directions provided by script
 
     * Set up background image rotation script
-* [asdf version manager](https://asdf-vm.com/guide/getting-started.html)
+* [mise tool manager](https://mise.jdx.dev/getting-started.html)
+    * Install the tool manager:
+        ```zsh
+        brew install mise
+        ```
+    * Install plugin dependencies:
+        ```zsh
+        brew install libyaml
+        ```
     * Install plugins
-        * [Install ruby](https://github.com/asdf-vm/asdf-ruby) please read migration guide!!
-            * Install dependencies:
-
-            ```zsh
-            brew install libyaml
-            ```
-
-        * [Install python](https://github.com/asdf-community/asdf-python)
-        * [Install java](https://github.com/halcyon/asdf-java)
-        * [Install nodejs](https://github.com/asdf-vm/asdf-nodejs)
-        * [Install golang](https://github.com/asdf-community/asdf-golang)
-        * [Complete list of plugins](https://github.com/asdf-vm/asdf-plugins?tab=readme-ov-file)
-    * [Install versions](https://asdf-vm.com/manage/versions.html)
+        ```zsh
+        mise install
+        ```
     * Make sure all versions are set so that nvim lsp-zero will install lsps as desired!
 
 * Neovim
