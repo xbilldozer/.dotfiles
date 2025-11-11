@@ -20,3 +20,5 @@ WORK=$HOME/.config/work
 for i in `find -L $WORK -name '.zsh*'`; do
     source $i
 done
+
+eval "$(mise activate zsh)"

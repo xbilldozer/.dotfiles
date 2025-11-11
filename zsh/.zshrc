@@ -111,4 +111,3 @@ source $ZSH/oh-my-zsh.sh
 source ~/.zsh_profile
 # Allow autocomplete with dotfiles without specifying dot first.
 setopt globdots
-
