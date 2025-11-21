@@ -1,0 +1,23 @@
+#!/usr/bin/env zsh
+SCRIPT_DIR="$( cd "$( dirname "${(%):-%x}" )" &> /dev/null && pwd )"
+source $SCRIPT_DIR/utils/install-helpers.sh
+
+if [[ -z $STOW_FOLDERS ]]; then
+  STOW_FOLDERS="bin,nvim,tmux,zsh"
+fi
+
+if [[ -z $DOTFILES ]]; then
+  DOTFILES=$HOME/.dotfiles
+fi
+
+selected=$(find $DOTFILES/work/* -type d -o -type l -maxdepth 0 | fzf )
+if [[ -z $selected ]]; then
+  echo "Must select a work dir to install"
+  exit 0
+fi
+selected_name="$(basename "$selected" | tr . _)"
+
+# Install generic, universal packages
+stow_install $DOTFILES ~/ $STOW_FOLDERS
+# Install machine-specific work packages
+stow_install $DOTFILES/work ~/ $selected_name

@@ -1,4 +1,7 @@
 #!/usr/bin/env zsh
+SCRIPT_DIR="$( cd "$( dirname "${(%):-%x}" )" &> /dev/null && pwd )"
+source $SCRIPT_DIR/utils/install-helpers.sh
+
 if [[ -z $STOW_FOLDERS ]]; then
     STOW_FOLDERS="bin,git,mise,nvim,oh-my-zsh,tmux,work,zsh"
 fi
@@ -7,5 +10,4 @@ if [[ -z $DOTFILES ]]; then
     DOTFILES=$HOME/.dotfiles
 fi
 
-STOW_FOLDERS=$STOW_FOLDERS DOTFILES=$DOTFILES $DOTFILES/install
-
+stow_install $DOTFILES ~/ $STOW_FOLDERS
