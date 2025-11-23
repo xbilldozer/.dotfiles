@@ -11,3 +11,7 @@ if [[ -z $DOTFILES ]]; then
 fi
 
 stow_install $DOTFILES ~/ $STOW_FOLDERS
+if [[ $? -ne 0 ]]; then
+  echo "Installation failed."
+  exit 1
+fi
