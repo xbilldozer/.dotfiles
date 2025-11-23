@@ -30,14 +30,14 @@ done
 if [[ -z $DOTFILES ]]; then
   DOTFILES=$HOME/.dotfiles
 fi
-selected=$(find $DOTFILES/work/* -type d -o -type l -maxdepth 0 | fzf )
+selected=$(find $DOTFILES/work/* -maxdepth 0 -type d -o -type l | fzf )
 if [[ -z $selected ]]; then
   echo "Must select a work dir to install"
   exit 0
 fi
 selected_name="$(basename "$selected" | tr . _)"
 
-STOW_FOLDERS=$(<$DOTFILES/work/pkgs.$selected_name)
+STOW_FOLDERS=$(<$DOTFILES/work/$selected_name/.packages)
 echo "Installing $STOW_FOLDERS"
 
 # Install generic, universal packages
@@ -52,7 +52,7 @@ if [[ $? -ne 0 ]]; then
 fi
 
 # Install machine-specific work packages
-$stow_action $DOTFILES/work ~/ $selected_name
+$stow_action $DOTFILES/work/$selected_name ~/ stow_package
 if [[ $? -ne 0 ]]; then
   echo "Installation of work-specific packages failed."
   exit 1
