@@ -1,0 +1,49 @@
+#!/usr/bin/env zsh
+SCRIPT_DIR="$( cd "$( dirname "${(%):-%x}" )" &> /dev/null && pwd )"
+source $SCRIPT_DIR/utils/install-helpers.sh
+stow_action=stow_install
+
+while getopts "hD" opt; do
+  case $opt in
+    h)
+      echo "Usage: install-work [-h] [-D]"
+      echo "-h shows this"
+      echo "-D uninstalls"
+      exit 0
+      ;;
+    D)
+      read "reply?Are you sure you want to uninstall $selected? (y/N) "
+      echo 
+      if [[ ! $reply =~ ^[Yy]$ ]]; then
+        echo "Aborting"
+        exit 0
+      fi
+      stow_action=stow_uninstall
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+  esac
+done
+
+if [[ -z $STOW_FOLDERS ]]; then
+    STOW_FOLDERS="bin,git,mise,nvim,oh-my-zsh,tmux,work,zsh"
+fi
+
+if [[ -z $DOTFILES ]]; then
+    DOTFILES=$HOME/.dotfiles
+fi
+
+$stow_action $DOTFILES ~/ $STOW_FOLDERS
+if [[ $? -ne 0 ]]; then
+  echo "Installation failed."
+  exit 1
+fi
+
+# Install personal packages
+$stow_action $DOTFILES/personal ~/ pkgs
+if [[ $? -ne 0 ]]; then
+  echo "Installation of personal packages failed."
+  exit 1
+fi
