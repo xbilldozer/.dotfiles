@@ -1,5 +1,5 @@
 # Generic ZSH profile for all of my setups
-export VIM="nvim"
+VIM="nvim"
 export LS_OPTIONS="--color=auto"
 export CLICOLOR="Yes"
 export LSCOLORS=ExFxCxDxBxegedabagacad
