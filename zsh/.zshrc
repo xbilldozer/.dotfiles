@@ -1,8 +1,17 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-# Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
+# Source all zsh sources
+ZSH_SOURCES=$HOME/.config/zsh
+for i in `find -L $ZSH_SOURCES -name '.zshrc_*'`; do
+  source $i
+done
+
+# If there is no setting for ZSH in the above files, then set it here to a sane default
+if [[ -z $ZSH ]]; then
+  # Path to your oh-my-zsh installation.
+  export ZSH="$HOME/.oh-my-zsh"
+fi
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -109,5 +118,9 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 source ~/.zsh_profile
+for i in `find -L $ZSH_SOURCES -name '.zsh_*'`; do
+  source $i
+done
+#
 # Allow autocomplete with dotfiles without specifying dot first.
 setopt globdots

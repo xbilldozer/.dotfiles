@@ -1,6 +1,7 @@
-VIM="nvim"
-export LS_OPTIONS='--color=auto'
-export CLICOLOR='Yes'
+# Generic ZSH profile for all of my setups
+export VIM="nvim"
+export LS_OPTIONS="--color=auto"
+export CLICOLOR="Yes"
 export LSCOLORS=ExFxCxDxBxegedabagacad
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
@@ -10,15 +11,8 @@ export PROJECTS=$HOME/src
 export GOPATH=$PROJECTS/go-projects
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$PATH:$GOPATH/bin" # Add gopath bin directory
-export KUBE_EDITOR='/usr/local/bin/nvim'
+export KUBE_EDITOR=$VIM
+export EDITOR=$VIM
 
 alias ls='ls -a'
 alias diffspec="git diff --name-only | grep -E spec.rb | xargs rspec"
-
-# Source all work files if they exist
-WORK=$HOME/.config/work
-for i in `find -L $WORK -name '.zsh*'`; do
-    source $i
-done
-
-eval "$(mise activate zsh)"
