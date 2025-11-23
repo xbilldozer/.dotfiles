@@ -27,10 +27,6 @@ while getopts "hD" opt; do
   esac
 done
 
-if [[ -z $STOW_FOLDERS ]]; then
-  STOW_FOLDERS="bin,nvim,oh-my-zsh,tmux,zsh"
-fi
-
 if [[ -z $DOTFILES ]]; then
   DOTFILES=$HOME/.dotfiles
 fi
@@ -40,6 +36,9 @@ if [[ -z $selected ]]; then
   exit 0
 fi
 selected_name="$(basename "$selected" | tr . _)"
+
+STOW_FOLDERS=$(<$DOTFILES/work/pkgs.$selected_name)
+echo "Installing $STOW_FOLDERS"
 
 # Install generic, universal packages
 # If these folders don't exist, they will eventually be created and end up in dotfiles.
