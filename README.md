@@ -3,6 +3,29 @@ Get me up and running bruh.
 
 These are just misc notes for now....
 
+## Quickstart
+
+```zsh
+xcode-select --install \
+  && brew install mise libyaml neovim stow awscli tmux fzf \
+  && mise install
+```
+
+Wait until those install, then:
+
+```zsh
+git clone git@github.com/xbilldozer/.dotfiles.git \
+  && cd .dotfiles \
+  && git submodule update --init \
+  && ./scripts/install-font \
+  && ./scripts/install-iterm-theme \
+  && ./scripts/install/install-tmux-tpm \
+  && ./install-personal \
+  && sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+
+Follow directions for installing tmux plugins
+
 ## Pre-requisites
 
 * Xcode Command Line Tools
@@ -79,25 +102,23 @@ Clone this repo and cd into it, ensure that you have cloned the submodules:
 git submodule update --init
 ```
 
-Run the osx script to stow the dotfiles:
+Run the install script to stow the dotfiles:
 
 ```zsh
-osx
+./install-personal
 ```
+
+If you are installing on a work computer, use the install-work script and pick the appropriate module.
 
 ### Setup neovim
-Open neovim and allow it to install packer and all plugins.
+Open neovim and allow it to install lazy-nvim and all plugins.
 
-```zsh
-nvim ~/.config/nvim/lua/theprimeagen/packer.lua
-```
-you will see errors when neovim opens for the first time -- `G` and then `Enter` to continue and install plugins.
-
-Restart neovim and allow it to install lsp-zero and all lsps. If you see errors here, review them with `:MasonLog` and take appropriate action.
-Usually, you have forgotten to set default versions of asdf plugins. You can do this by running `asdf global <plugin> <version>`.
+You can review plugins with `:Lazy`.
+If you see errors when Mason is installing LSPs, review them with `:MasonLog` and take appropriate action.
+Usually, you have forgotten to set default versions of mise plugins. You can do this by running `mise install`.
 
 ### Setup Github Copilot
-In neovim, run:
+If you have installed the neovim copilot plugin, run:
 
 ```
 :Copilot setup
@@ -138,10 +159,9 @@ git config --global push.autoSetupRemote true
 
 ### neovim information
 
-- Uses packer to manage packages
+- Uses lazy.nvim to manage packages
 - Treesitter for parsing/syntax highlighting
-- lsp-zero for language severs/autocomplete
-    - see `after/lsp.lua` for default lsps
+- Mason for lsp installation
 
 ### tmux information
 
@@ -180,18 +200,11 @@ eval "$(ssh-agent -s)"
 
 Add your key to the agent:
 ```zsh
-ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+ssh-add ~/.ssh/id_ed25519
 ```
 
 ### Troubleshooting
 
-#### Packer issues
-
-Make sure compiled packer is not present in nvim/plugin/ directory.
-`:so %` in lua/packer file and then `:PackerSync`
-`:lua ColorMyPencils()` to restore theme and background.
-
 If running into treesitting parsing issues, run `:TSUpdate` to make sure it is up-to-date.
 
 If still having issues, run `:TSInstall! <lang>` and restart neovim.
-
