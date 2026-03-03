@@ -22,7 +22,7 @@ stow_install() {
   pushd $package_dir
   for folder in $(echo $packages | sed "s/,/ /g")
   do
-      if ! stow -t $target_dir -R $folder; then
+      if ! stow --no-folding -t $target_dir -R $folder; then
         echo "FAILED: stowing package $package_dir/$folder" >&2
         all_succeeded=false
       fi
