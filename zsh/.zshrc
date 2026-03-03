@@ -117,6 +117,9 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# Allow pushd to have duplicates in the stack. Some of the scripts I write use pushd/popd and if you execute in the pushd directory, it has undesirable behavior.
+unsetopt pushdignoredups
+
 source ~/.zsh_profile
 for i in `find -L $ZSH_SOURCES -name '.zsh_*'`; do
   source $i
