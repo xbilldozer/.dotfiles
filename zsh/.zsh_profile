@@ -8,7 +8,7 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 export TZ="America/New_York"
 echo "Terminal TZ set to $TZ"
 export PROJECTS=$HOME/src
-export GOPATH=$PROJECTS/go-projects
+export GOPATH="$GOPATH:$PROJECTS/go-projects"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$PATH:$GOPATH/bin" # Add gopath bin directory
 export KUBE_EDITOR=$VIM
