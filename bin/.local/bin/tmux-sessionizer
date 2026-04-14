@@ -3,7 +3,20 @@
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-	selected=$(find $PROJECTS/* -type d -o -type l -maxdepth 0 | fzf )
+	fzf_result=$(find $PROJECTS/* -type d -o -type l -maxdepth 0 | fzf --print-query --header="New session")
+
+  if [[ $? -eq 130 ]]; then
+    echo "Exit workflow"
+    exit 0
+  fi
+
+  results=("${(f)fzf_result}")
+  query="${results[1]}"
+  selected="${results[2]}"
+
+  if [[ -z "$selected" ]] && [[ -n "$query" ]]; then
+    selected=$query
+  fi
 fi
 
 if [[ -z $selected ]]; then
