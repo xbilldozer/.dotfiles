@@ -124,6 +124,8 @@ source ~/.zsh_profile
 for i in `find -L $ZSH_SOURCES -name '.zsh_*'`; do
   source $i
 done
+
+[[ -f ~/.zsh.secrets ]] && source ~/.zsh.secrets
 #
 # Allow autocomplete with dotfiles without specifying dot first.
 setopt globdots
