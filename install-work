@@ -3,17 +3,22 @@ SCRIPT_DIR="$( cd "$( dirname "${(%):-%x}" )" &> /dev/null && pwd )"
 source $SCRIPT_DIR/utils/install-helpers.sh
 stow_action=stow_install
 
-while getopts "hD" opt; do
+while getopts "e:hD" opt; do
   case $opt in
     h)
       echo "Usage: install-work [-h] [-D]"
+      echo "-e ENV (one of: doscar, oscar_osx)"
       echo "-h shows this"
       echo "-D uninstalls"
-      exit 0
+      exit 1
+      ;;
+    e)
+      selected="$OPTARG"
+      echo "Selected env $selected at runtime"
       ;;
     D)
       read "reply?Are you sure you want to uninstall $selected? (y/N) "
-      echo 
+      echo
       if [[ ! $reply =~ ^[Yy]$ ]]; then
         echo "Aborting"
         exit 0
@@ -30,10 +35,20 @@ done
 if [[ -z $DOTFILES ]]; then
   DOTFILES=$HOME/.dotfiles
 fi
-selected=$(find $DOTFILES/work/* -maxdepth 0 -type d -o -type l | fzf )
+
+# If the env wasn't selected at runtime, offer a lookup
+if [[ -z $selected ]]; then
+  if ! command -v fzf; then
+    echo "fzf not installed, try running with -e to set environment manually"
+    exit 1
+  fi
+  selected=$(find $DOTFILES/work/* -maxdepth 0 -type d -o -type l | fzf )
+fi
+
+# Check once more because this MUST be set by now
 if [[ -z $selected ]]; then
   echo "Must select a work dir to install"
-  exit 0
+  exit 1
 fi
 selected_name="$(basename "$selected" | tr . _)"
 
@@ -42,9 +57,9 @@ echo "Installing $STOW_FOLDERS"
 
 # Install generic, universal packages
 # If these folders don't exist, they will eventually be created and end up in dotfiles.
-# Alternatively, I coul add something in to selectively `--no-folding` the bin directory, 
+# Alternatively, I coul add something in to selectively `--no-folding` the bin directory,
 # but it was easier to do this for now
-mkdir -p ~/.local/share ~/.local/state 
+mkdir -p ~/.local/share ~/.local/state
 $stow_action $DOTFILES ~/ $STOW_FOLDERS
 if [[ $? -ne 0 ]]; then
   echo "Installation of generic packages failed."
