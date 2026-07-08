@@ -2,6 +2,9 @@
 
 if [[ $# -eq 1 ]]; then
     selected=$1
+elif [[ $# -eq 2 ]]; then
+    selected=$1
+    selected_name=$2
 else
 	fzf_result=$(find $PROJECTS/* -type d -o -type l -maxdepth 0 | fzf --print-query --header="New session")
 
@@ -23,7 +26,10 @@ if [[ -z $selected ]]; then
     exit 0
 fi
 
-selected_name="$(basename "$selected" | tr . _)"
+if [[ -z $selected_name ]]; then
+  selected_name="$(basename "$selected" | tr . _)"
+fi
+
 tmux_running="$(pgrep tmux)"
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
