@@ -2,19 +2,31 @@
 SCRIPT_DIR="$( cd "$( dirname "${(%):-%x}" )" &> /dev/null && pwd )"
 source $SCRIPT_DIR/utils/install-helpers.sh
 stow_action=stow_install
+skip_preinstall=false
+skip_postinstall=false
 
-while getopts "e:hD" opt; do
+while getopts "e:hABD" opt; do
   case $opt in
     h)
       echo "Usage: install-work [-h] [-D]"
       echo "-e ENV (one of: doscar, oscar_osx)"
       echo "-h shows this"
+      echo "-A skip post-install script"
+      echo "-B skip pre-install script"
       echo "-D uninstalls"
       exit 1
       ;;
     e)
       selected="$OPTARG"
       echo "Selected env $selected at runtime"
+      ;;
+    B)
+      skip_preinstall=true
+      echo "Skip preinstall scripts"
+      ;;
+    A)
+      skip_postinstall=true
+      echo "Skip postinstall scripts"
       ;;
     D)
       read "reply?Are you sure you want to uninstall $selected? (y/N) "
@@ -54,9 +66,9 @@ selected_name="$(basename "$selected" | tr . _)"
 
 preinstall_script=$DOTFILES/work/$selected_name/pre-install.sh
 postinstall_script=$DOTFILES/work/$selected_name/post-install.sh
-if [[ -f $preinstall_script ]]; then
-  zsh -c "$(preinstall_script)"
-exec
+if [[ "$skip_preinstall" == "false" && -f $preinstall_script ]]; then
+  zsh -c "$preinstall_script"
+fi
 
 STOW_FOLDERS=$(<$DOTFILES/work/$selected_name/.packages)
 echo "Installing $STOW_FOLDERS"
@@ -79,6 +91,6 @@ if [[ $? -ne 0 ]]; then
   exit 1
 fi
 
-if [[ -f $postinstall_script ]]; then
-  zsh -c "$(postinstall_script)"
-exec
+if [[ "$skip_postinstall" == "false" && -f $postinstall_script ]]; then
+  zsh -c "$postinstall_script"
+fi
