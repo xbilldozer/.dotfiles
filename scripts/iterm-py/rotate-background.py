@@ -7,12 +7,18 @@ import random
 import subprocess
 import os
 
+# _last_switch - when the last switch occurred; default -1
 _last_switch = -1
+# _last_background - used to ensure that when we change backgrounds, we don't change to the same one; is actually the current background most of the time.
 _last_background = ''
-_path = f'/usr/local/bin/:{os.environ.get("PATH")}'
+# _path - The path for the scripts does not contain my user PATH, so we need to add potential locations for tmux here.
+_path = f'/usr/local/bin/:/opt/homebrew/bin/:{os.environ.get("PATH")}'
+# _tasks - currently-executing tasks
 _tasks = []
+# _backgrounds - all loaded background
 _backgrounds = []
-_bg_path = os.path.join(os.environ.get('HOME'), 'src/wallpapers/**/*.')
+# _bg_path - where the backgrounds are supposed to live
+_bg_path = os.path.join(os.environ.get('HOME'), 'src/personal/wallpapers/**/*.')
 MAPPINGS = ['apple', 'md770']
 MODIFIERS = {
     'md770': [iterm2.Modifier.CONTROL, iterm2.Modifier.OPTION],
@@ -20,7 +26,7 @@ MODIFIERS = {
 }
 KEYCODES = {
     'info': {
-        'apple': {
+        'apple': { # ctrl + opt + i
             'key': iterm2.Keycode.ANSI_I,
             'modifier': [iterm2.Modifier.CONTROL,
                          iterm2.Modifier.OPTION]},
@@ -29,7 +35,7 @@ KEYCODES = {
             'modifier': [iterm2.Modifier.CONTROL,
                          iterm2.Modifier.OPTION]}},
     'next': {
-        'apple': {
+        'apple': { # fn + skip
             'key': iterm2.Keycode.F9,
             'modifier': [iterm2.Modifier.FUNCTION]},
         'md770': {
@@ -37,7 +43,7 @@ KEYCODES = {
             'modifier': [iterm2.Modifier.CONTROL,
                          iterm2.Modifier.OPTION]}},
     'reload': {
-        'apple': {
+        'apple': { # fn + F5 (eg: F5 for reloading in a browser)
             'key': iterm2.Keycode.F5,
             'modifier': [iterm2.Modifier.FUNCTION]},
         'md770': {
@@ -45,7 +51,7 @@ KEYCODES = {
             'modifier': [iterm2.Modifier.CONTROL,
                          iterm2.Modifier.OPTION]}},
     'stop': {
-        'apple': {
+        'apple': { # fn + reverse
             'key': iterm2.Keycode.F7,
             'modifier': [iterm2.Modifier.FUNCTION]},
         'md770': {
@@ -53,7 +59,7 @@ KEYCODES = {
             'modifier': [iterm2.Modifier.CONTROL,
                          iterm2.Modifier.OPTION]}},
     'toggle': {
-        'apple': {
+        'apple': { # fn + play
             'key': iterm2.Keycode.F8,
             'modifier': [iterm2.Modifier.FUNCTION]},
         'md770': {
@@ -63,6 +69,15 @@ KEYCODES = {
 }
 BACKGROUND_EXTENTIONS = ['bmp', 'jpeg', 'jpg', 'png']
 BACKGROUND_TIMEOUT_SEC = 30 * 60
+
+def display_message(message):
+    try:
+        subprocess.call(['tmux', 'display-message', message],
+                        env={'PATH': _path})
+    except FileNotFoundError as exc:
+        print('tmux is not available for displaying a message')
+        print(exc)
+        pass
 
 
 def load_backgrounds():
@@ -105,9 +120,7 @@ async def change_background(app, background=None):
         _last_background = background
     print(f'setting background to {background}')
     await profile.async_set_background_image_location(background)
-    subprocess.call(['tmux', 'display-message', background],
-                    env={'PATH': _path})
-
+    display_message(background)
 
 async def poll_change_background(app, restore=False):
     global _last_switch
@@ -162,8 +175,7 @@ async def main(connection):
                     f'loc: {_last_background}'
                 ]
                 message = '; '.join(information).lower()
-                subprocess.call(['tmux', 'display-message', message],
-                                env={'PATH': _path})
+                display_message(message)
 
     # Monitor the keyboard
     async with iterm2.KeystrokeMonitor(connection) as mon:
