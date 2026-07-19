@@ -12,7 +12,7 @@ while getopts "hD" opt; do
       exit 0
       ;;
     D)
-      read "reply?Are you sure you want to uninstall $selected? (y/N) "
+      read "reply?Are you sure you want to uninstall personal? (y/N) "
       echo 
       if [[ ! $reply =~ ^[Yy]$ ]]; then
         echo "Aborting"
